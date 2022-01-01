@@ -1,19 +1,26 @@
 <template>
   <div id="app">
-    <div class="camera">
-      <video ref="video" :srcObject.prop="videoSource" id="video" autoplay>
+    <div class="media">
+      <video
+        class="video"
+        width="500"
+        height="375"
+        ref="video"
+        :srcObject.prop="videoSource"
+        autoplay
+      >
         Video stream not available.
       </video>
-      <button @click="takepicture" id="startbutton">Take Photo</button>
-    </div>
-    <canvas ref="canvas" id="canvas" />
-    <div class="output">
       <img
+        class="image"
+        width="500"
+        height="375"
         :src="photoSource"
-        id="photo"
         alt="The screen capture will appear in this box."
       />
     </div>
+    <canvas width="500" height="375" ref="canvas" id="canvas" />
+    <button @click="takepicture" class="button">Take Photo</button>
   </div>
 </template>
 
@@ -36,11 +43,21 @@ export default {
         .catch((err) => {
           console.log("An error occurred: " + err);
         });
+
+      this.clearPhoto();
     },
     takepicture() {
       let context = this.$refs.canvas.getContext("2d");
-      context.drawImage(this.$refs.video, 0, 0, 200, 200);
+      context.drawImage(this.$refs.video, 0, 0, 500, 375);
       let data = this.$refs.canvas.toDataURL("image/png");
+      this.photoSource = data;
+    },
+    clearPhoto() {
+      const context = this.$refs.canvas.getContext("2d");
+      context.fillStyle = "#AAA";
+      context.fillRect(0, 0, 500, 375);
+
+      const data = this.$refs.canvas.toDataURL("image/png");
       this.photoSource = data;
     },
   },
@@ -63,35 +80,51 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   padding: 2rem;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  column-gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5rem;
+}
+
+.media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
 }
 
 #canvas {
   display: none;
 }
 
-.camera {
+.video {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2rem;
   align-items: center;
-  grid-column: 1 / 2;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-#startbutton {
-  font-size: 1rem;
-  padding: 1rem 2rem;
+.image {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.button {
+  font-size: 1.3rem;
+  font-weight: 700;
+  padding: 1.5rem 2.5rem;
   border: none;
   outline: none;
   border-radius: 8px;
   cursor: pointer;
+  color: white;
+  background-color: royalblue;
 }
 
-.output {
-  grid-column: 2 / 3;
-  background-color: tan;
+.button:hover {
+  background-color: rgb(36, 68, 167);
 }
 </style>
