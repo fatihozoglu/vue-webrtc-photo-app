@@ -20,6 +20,33 @@
       />
     </div>
     <canvas width="500" height="375" ref="canvas" id="canvas" />
+    <div class="select-device">
+      <label for="videoDevices">
+        Camera:
+        <select v-model="selectedCamera" name="videoDevices" id="videoDevices">
+          <option
+            v-for="(camera, index) in videoDevices"
+            :key="index"
+            :value="camera.deviceId"
+          >
+            {{ camera.label }}
+          </option>
+        </select>
+      </label>
+      <label for="audioDevices">
+        Microphone:
+        <select v-model="selectedMic" name="audioDevices" id="audioDevices">
+          <option
+            v-for="(mic, index) in audioDevices"
+            :key="index"
+            :value="mic.deviceId"
+          >
+            {{ mic.label }}
+          </option>
+        </select>
+      </label>
+    </div>
+
     <button @click="takepicture" class="button">Take Photo</button>
   </div>
 </template>
@@ -31,12 +58,16 @@ export default {
     return {
       videoSource: null,
       photoSource: null,
+      videoDevices: null,
+      audioDevices: null,
+      selectedCamera: null,
+      selectedMic: null,
     };
   },
   methods: {
     startup() {
       navigator.mediaDevices
-        .getUserMedia({ video: true, audio: false })
+        .getUserMedia({ video: true, audio: true })
         .then((stream) => {
           this.videoSource = stream;
         })
@@ -60,9 +91,25 @@ export default {
       const data = this.$refs.canvas.toDataURL("image/png");
       this.photoSource = data;
     },
+    async getConnectedDevices() {
+      await navigator.mediaDevices.enumerateDevices().then((devices) => {
+        this.videoDevices = devices.filter(
+          (device) => device.kind === "videoinput"
+        );
+        this.audioDevices = devices.filter(
+          (device) => device.kind === "audioinput"
+        );
+      });
+      this.selectInitialDevices();
+    },
+    selectInitialDevices() {
+      this.selectedCamera = this.videoDevices[0].deviceId;
+      this.selectedMic = this.audioDevices[0].deviceId;
+    },
   },
   mounted() {
     this.startup();
+    this.getConnectedDevices();
   },
 };
 </script>
@@ -83,7 +130,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5rem;
+  gap: 1rem;
 }
 
 .media {
@@ -110,6 +157,23 @@ export default {
 .image {
   border-radius: 8px;
   overflow: hidden;
+}
+
+.select-device {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+label {
+  font-weight: 800;
+}
+
+select {
+  height: 2rem;
+  font-size: 1rem;
 }
 
 .button {
