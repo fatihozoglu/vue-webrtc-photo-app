@@ -2,11 +2,14 @@
 
 This is a simple app to take a photo from your device's camera.
 
+You can check the [live demo here.](https://fozoglu-vue-webrtc-photo-app.surge.sh/)
+
 This project is built with:
 
 - Frontend Framework: [Vuejs](https://vuejs.org/)
-- Created with: [Vue CLI](https://cli.vuejs.org/),
+- Created with: [Vue CLI](https://cli.vuejs.org/)
 - Project Source: [Taking still photos with WebRTC](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Taking_still_photos)
+- Deployment: [Surge](https://surge.sh/)
 
 ## Table of contents
 
@@ -33,6 +36,7 @@ Users should be able to:
 ### Links
 
 - Solution URL: [Github Link](https://github.com/fatihozoglu/vue-webrtc-photo-app)
+- Live Demo URL: [Vue WebRTC Photo App](https://fozoglu-vue-webrtc-photo-app.surge.sh/)
 
 ## My process
 
@@ -44,6 +48,7 @@ Users should be able to:
 - [Vue CLI](https://cli.vuejs.org/)
 - [WebRTC Official](https://webrtc.org/)
 - [WebRTC MDN](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API)
+- [Surge](https://surge.sh/)
 
 ## Author
 
