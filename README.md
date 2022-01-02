@@ -24,7 +24,9 @@ This project is built with:
 
 Users should be able to:
 
-- See video stream from his camera when the app is opened
+- See the video stream from his/her camera when the app is opened
+- See the list of media devices (cameras and microphones) connected to the computer
+- Select desired media devices from the lists
 - Take a photo by clicking the "Take Photo" button
 - See the taken photo
 
